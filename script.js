@@ -1,21 +1,112 @@
-// const data2 = {
-//     columns: ['Name', 'Position', 'Office', 'Age', 'Start date', 'Salary'],
-//     rows: [
-//       ['Tiger Nixon', 'System Architect', '	Edinburgh', 61, '2011/04/25', '$320,800'],
-//       ['Sonya Frost', 'Software Engineer', 'Edinburgh', 23, '2008/12/13', '$103,600'],
-//       ['Jena Gaines', 'Office Manager', 'London', 30, '2008/12/19', '$90,560'],
-//       ['Quinn Flynn', 'Support Lead', 'Edinburgh', 22, '2013/03/03', '$342,000'],
-//       ['Charde Marshall', 'Regional Director', 'San Francisco', 36, '2008/10/16', '$470,600'],
-//       ['Haley Kennedy', 'Senior Marketing Designer', 'London', 43, '2012/12/18', '$313,500'],
-//       ['Tatyana Fitzpatrick', 'Regional Director', 'London', 19, '2010/03/17', '$385,750'],
-//       ['Michael Silva', 'Marketing Designer', 'London', 66, '2012/11/27', '$198,500'],
-//       ['Paul Byrd', 'Chief Financial Officer (CFO)', 'New York', 64, '2010/06/09', '$725,000'],
-//       ['Gloria Little', 'Systems Administrator', 'New York', 59, '2009/04/10', '$237,500'],
-//     ],
-//   };
-  
-//   const instance = new mdb.Datatable(document.getElementById('datatable'), data2)
-  
-//   document.getElementById('datatable-search-input').addEventListener('input', (e) => {
-//     instance.input-group(e.target.value);
-//   });
+// HEADER STYLE ///////////////////
+var header = document.getElementById('header')
+var modeCheck
+function mode() {
+    if (document.getElementById('mySwitch').checked) {
+        modeCheck == false
+        document.getElementById('boody').style.backgroundColor = "rgb(26, 4, 47)"
+        document.querySelector('.table').style.borderColor = "white"
+        document.getElementById('tbody').style.color = "white"
+        header.style.backgroundColor = "#ffc107"
+        document.querySelector('.fa-solid').style.color = "#ffc107"
+        document.querySelector('.btn').style.backgroundColor = "rgb(26, 4, 47)"
+    }
+    else {
+        modeCheck == true
+        header.style.backgroundColor = "rgb(26, 4, 47)"
+        document.getElementById('boody').style.backgroundColor = "white"
+        document.querySelector('.table').style.borderColor = "rgb(26, 4, 47)"
+        document.getElementById('tbody').style.color = "rgb(26, 4, 47)"
+        document.querySelector('.fa-solid').style.color = "rgb(26, 4, 47)"
+        document.querySelector('.btn').style.backgroundColor = "#ffc107"
+    }
+}
+function show() {
+    header.style.opacity = "1"
+}
+const checkpoint = 180;
+window.addEventListener("scroll", () => {
+    const currentScroll = window.pageYOffset;
+    if (currentScroll < checkpoint) {
+        header.style.transition = "0.5s"
+        header.style.opacity = "1"
+    } else {
+        header.style.opacity = "0.6"
+    }
+
+});
+
+// XHTTP REQUEST  ////////////////////////////////////
+var xhttp = new XMLHttpRequest();
+xhttp.open('GET', "data.json");
+xhttp.onreadystatechange = function () {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+        var data = JSON.parse(xhttp.responseText)
+        for (let i = 0; i < data.movies.length; i++) {
+            console.log(data.movies[i])
+
+            //  TABLE FILL ////////////////////////////////////
+            // ROW & CELLS CREATE /////////////////////////////
+            var table = document.getElementById("tbody");
+            for (movies in data) {
+                var row = table.insertRow();
+                var cell1 = row.insertCell();
+                var cell2 = row.insertCell();
+                var cell3 = row.insertCell();
+                var cell4 = row.insertCell();
+                var cell5 = row.insertCell();
+                var cell6 = row.insertCell();
+                var cell7 = row.insertCell();
+            }
+            // CELLS CONTENT ////////////////////////
+            cell1.innerHTML = "<a target='_blank' href=" + data.movies[i].Poster + "><img class='img-fluid' src=" + data.movies[i].Poster + " ></a>"
+            cell2.innerHTML = data.movies[i].title;
+            cell3.innerHTML = data.movies[i].director;
+            cell4.innerHTML = data.movies[i].time;
+            cell5.innerHTML = data.movies[i].yearOfProducyion;
+            for (let j = 0; j < data.movies[i].Festivals.length; j++) {
+                cell6.innerHTML += "<li>" + data.movies[i].Festivals[j] + "</li>";
+            }
+            for (let k = 0; k < data.movies[i].Actors.length; k++) {
+                cell7.innerHTML += "<li> <br> Nom" + " : " + data.movies[i].Actors[k].name + "<br>" + "Prénom " + " : " + data.movies[i].Actors[k].lastName + "<br>" + "Nationalité" + " : " + data.movies[i].Actors[k].nationality + "<br> </li>";
+            }
+        };
+        // SEARCH /////////////////////////////////////////
+        var input = document.querySelector('.form-control')
+        var table = document.getElementById('table');
+        input.addEventListener('input', () => {
+            table.querySelectorAll('tr').forEach(row => row.hidden = row.cells[1].innerText.toUpperCase().indexOf(input.value.toUpperCase()) === -1)
+        })
+///// SORT ////////////////////////////
+th = document.getElementsByTagName('th')
+for(let c = 0 ; c < th.length ; c++){
+  th[c].addEventListener('click' , item(c))
+}
+function item(c){
+  return function (){
+    sortTable(c)
+}}
+function sortTable(c) {
+  var table, rows
+  table = document.getElementById("table");
+  var switching = true;
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+    for ( var z = 1; z < (rows.length - 1); z++) {
+      shouldSwitch = false;
+      var x = rows[z].getElementsByTagName("TD")[c];
+     var y = rows[z + 1].getElementsByTagName("TD")[c];
+      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        rows[z].parentNode.insertBefore(rows[z + 1], rows[z]);
+        switching = true;
+        break;
+      }
+    }
+  }
+}
+    }
+}
+xhttp.send()
+
+
