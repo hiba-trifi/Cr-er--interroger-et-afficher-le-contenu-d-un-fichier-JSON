@@ -1,6 +1,5 @@
 // HEADER STYLE ///////////////////
-var header = document.getElementById('header')
-var modeCheck
+var header = document.getElementById('header') , modeCheck
 function mode() {
     if (document.getElementById('mySwitch').checked) {
         modeCheck == false
@@ -19,8 +18,7 @@ function mode() {
         document.getElementById('tbody').style.color = "rgb(26, 4, 47)"
         document.querySelector('.fa-solid').style.color = "rgb(26, 4, 47)"
         document.querySelector('.btn').style.backgroundColor = "#ffc107"
-    }
-}
+ }}
 function show() {
     header.style.opacity = "1"
 }
@@ -32,32 +30,28 @@ window.addEventListener("scroll", () => {
         header.style.opacity = "1"
     } else {
         header.style.opacity = "0.6"
-    }
-
-});
-
+    }});
 // XHTTP REQUEST  ////////////////////////////////////
 var xhttp = new XMLHttpRequest();
-xhttp.open('GET', "data.json");
+xhttp.open('GET', "movies.json");
 xhttp.onreadystatechange = function () {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
         var data = JSON.parse(xhttp.responseText)
         for (let i = 0; i < data.movies.length; i++) {
             console.log(data.movies[i])
-
             //  TABLE FILL ////////////////////////////////////
             // ROW & CELLS CREATE /////////////////////////////
             var table = document.getElementById("tbody");
             for (movies in data) {
                 var row = table.insertRow();
-                var cell1 = row.insertCell();
                 var cell2 = row.insertCell();
+                var cell1 = row.insertCell();
                 var cell3 = row.insertCell();
                 var cell4 = row.insertCell();
                 var cell5 = row.insertCell();
                 var cell6 = row.insertCell();
-                var cell7 = row.insertCell();
-            }
+                var cell7 = row.insertCell();              
+            }  
             // CELLS CONTENT ////////////////////////
             cell1.innerHTML = "<a target='_blank' href=" + data.movies[i].Poster + "><img class='img-fluid' src=" + data.movies[i].Poster + " ></a>"
             cell2.innerHTML = data.movies[i].title;
@@ -69,8 +63,7 @@ xhttp.onreadystatechange = function () {
             }
             for (let k = 0; k < data.movies[i].Actors.length; k++) {
                 cell7.innerHTML += "<li> <br> Nom" + " : " + data.movies[i].Actors[k].name + "<br>" + "Prénom " + " : " + data.movies[i].Actors[k].lastName + "<br>" + "Nationalité" + " : " + data.movies[i].Actors[k].nationality + "<br> </li>";
-            }
-        };
+            }}
         // SEARCH /////////////////////////////////////////
         var input = document.querySelector('.form-control')
         var table = document.getElementById('table');
@@ -80,12 +73,13 @@ xhttp.onreadystatechange = function () {
 ///// SORT ////////////////////////////
 th = document.getElementsByTagName('th')
 for(let c = 0 ; c < th.length ; c++){
-  th[c].addEventListener('click' , item(c))
+  th[c].addEventListener('onClick' , item(c))
 }
 function item(c){
   return function (){
     sortTable(c)
 }}
+var rows = table.rows
 function sortTable(c) {
   var table, rows
   table = document.getElementById("table");
@@ -101,12 +95,7 @@ function sortTable(c) {
         rows[z].parentNode.insertBefore(rows[z + 1], rows[z]);
         switching = true;
         break;
-      }
-    }
-  }
-}
-    }
-}
+}}}}}}
 xhttp.send()
 
 
