@@ -1,5 +1,6 @@
 // HEADER STYLE ///////////////////
-var header = document.getElementById('header') , modeCheck
+var header = document.getElementById('header')
+var modeCheck
 function mode() {
     if (document.getElementById('mySwitch').checked) {
         modeCheck == false
@@ -18,7 +19,8 @@ function mode() {
         document.getElementById('tbody').style.color = "rgb(26, 4, 47)"
         document.querySelector('.fa-solid').style.color = "rgb(26, 4, 47)"
         document.querySelector('.btn').style.backgroundColor = "#ffc107"
- }}
+    }
+}
 function show() {
     header.style.opacity = "1"
 }
@@ -30,15 +32,19 @@ window.addEventListener("scroll", () => {
         header.style.opacity = "1"
     } else {
         header.style.opacity = "0.6"
-    }});
+    }
+
+});
+
 // XHTTP REQUEST  ////////////////////////////////////
 var xhttp = new XMLHttpRequest();
-xhttp.open('GET', "movies.json");
+xhttp.open('GET', "data.json");
 xhttp.onreadystatechange = function () {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
         var data = JSON.parse(xhttp.responseText)
         for (let i = 0; i < data.movies.length; i++) {
             console.log(data.movies[i])
+
             //  TABLE FILL ////////////////////////////////////
             // ROW & CELLS CREATE /////////////////////////////
             var table = document.getElementById("tbody");
@@ -63,7 +69,8 @@ xhttp.onreadystatechange = function () {
             }
             for (let k = 0; k < data.movies[i].Actors.length; k++) {
                 cell7.innerHTML += "<li> <br> Nom" + " : " + data.movies[i].Actors[k].name + "<br>" + "Prénom " + " : " + data.movies[i].Actors[k].lastName + "<br>" + "Nationalité" + " : " + data.movies[i].Actors[k].nationality + "<br> </li>";
-            }}
+            }
+        };
         // SEARCH /////////////////////////////////////////
         var input = document.querySelector('.form-control')
         var table = document.getElementById('table');
@@ -81,6 +88,12 @@ function item(c){
 }}
 var rows = table.rows
 function sortTable(c) {
+    // [...rows].sort((a,b)=>{
+    //     let x = a.querySelectorAll('td')[c].textContent.toLowerCase(),
+    //      y = b.querySelectorAll('td')[c].textContent.toLowerCase();
+    //      console.log(x , y)
+    //   return  x < y ? -1 : 1;
+    // }).map(sorted_row => document.querySelectorAll('tbody').appendChild(sorted_row ))
   var table, rows
   table = document.getElementById("table");
   var switching = true;
@@ -95,7 +108,14 @@ function sortTable(c) {
         rows[z].parentNode.insertBefore(rows[z + 1], rows[z]);
         switching = true;
         break;
-}}}}}}
+      }
+    }
+  }
+}
+
+
+    }
+}
 xhttp.send()
 
 
