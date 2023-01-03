@@ -3,7 +3,7 @@ var header = document.getElementById('header')
 var modeCheck
 function mode() {
     if (document.getElementById('mySwitch').checked) {
-        modeCheck == false   
+        modeCheck == false
         header.style.backgroundColor = "#FFC001"
         header.style.transition = "0.5s"
         document.getElementById('boody').style.backgroundColor = "#1E0E34"
